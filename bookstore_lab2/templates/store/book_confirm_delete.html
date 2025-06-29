@@ -1,0 +1,12 @@
+<h1>Confirm Delete</h1>
+
+<p>Are you sure you want to delete "<strong>{{ book.title }}</strong>"?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" style="color: white; background-color: red">
+    Yes, delete
+  </button>
+</form>
+
+<a href="{% url 'book_detail' book.id %}">Cancel</a>
