@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+  <title>BookStore</title>
+  <meta name="description" content="BookStore">
+  <meta name="keywords" content="HTML, CSS, JavaScript">
+  <meta name="author" content="Momen Ehab">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <style>
+    /* simple inline navbar styling; you can move this into your CSS file */
+    .navbar {
+      display: flex;
+      background: #333;
+      padding: 0.5rem 1rem;
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-right: 1rem;
+      padding: 0.5rem;
+    }
+    .navbar a:hover,
+    .navbar .active {
+      background: #555;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="{% url 'books_list' %}"
+       class="{% if request.resolver_match.url_name == 'book_list' %}active{% endif %}">
+      Books
+    </a>
+    <a href="{% url 'author_list' %}"
+       class="{% if request.resolver_match.url_name == 'author_list' %}active{% endif %}">
+      Authors
+    </a>
+        <a href="{% url 'publisher_list' %}"
+       class="{% if request.resolver_match.url_name == 'publisher_list' %}active{% endif %}">
+      Publishers
+    </a>
+    {% if user.is_authenticated %}
+ <a>Hello, {{ user.username }} |<form method="post" action="{% url 'logout' %}">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-link">Logout</button>
+</form></a> 
+{% else %}
+  <a href="{% url 'login' %}">Login</a> | <a href="{% url 'signup' %}">Sign up</a>
+{% endif %}
+
+  </nav>
+  <main>
+   {% block content %}
+   {% endblock content %}
+  </main>
+</body>
+</html>

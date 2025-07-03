@@ -1,0 +1,27 @@
+{% extends "bookstoreApp/base.html" %}
+
+{% block content %}
+  <h2>All Publishers</h2>
+
+  <form method="post" action="{% url 'publisher_list' %}" class="form">
+    {% csrf_token %}
+    
+    <div class="formDiv">
+      <label for="title">Publisher Name</label>
+      <input type="text" name="title" id="title" required>
+    </div>
+    <button type="submit">Add Publisher</button>
+  </form>
+
+  <hr>
+
+  <ul>
+    {% for publisher in publishers %}
+      <li>
+        {{ publisher.title }}
+      </li>
+    {% empty %}
+      <li>No publishers available.</li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

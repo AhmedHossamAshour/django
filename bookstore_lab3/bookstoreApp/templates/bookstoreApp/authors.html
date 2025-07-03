@@ -1,0 +1,39 @@
+{% extends "bookstoreApp/base.html" %}
+{% load static %}
+{% block content %}
+  <main class="container">
+    <h1>Add a New Author</h1>
+    <form method="post" action="{% url 'author_list' %}" class="author-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_first_name">First Name</label>
+        <input type="text" name="first_name" id="id_first_name" required>
+      </div>
+      <div class="form-group">
+        <label for="id_last_name">Last Name</label>
+        <input type="text" name="last_name" id="id_last_name" required>
+      </div>
+      <div class="form-group">
+        <label for="id_email">Email</label>
+        <input type="email" name="email" id="id_email" required>
+      </div>
+      <div class="form-group">
+        <label for="id_username">Username</label>
+        <input type="text" name="username" id="id_username" required>
+      </div>
+      <div class="form-group">
+        <button type="submit">Create Author</button>
+      </div>
+    </form>
+    <hr>
+    <ul>
+      {% for author in authors %}
+        <li>
+          <strong>{{ author.first_name }} {{ author.last_name }}</strong>
+        </li>
+      {% empty %}
+        <li>No Authors found.</li>
+      {% endfor %}
+    </ul>
+  </main>
+{% endblock content %}

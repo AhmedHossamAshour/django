@@ -1,0 +1,53 @@
+{% extends "bookstoreApp/base.html" %}
+{% block content %}
+  <h2>All Books</h2>
+  <form method="post" action="{% url 'books_list' %}" class="form">
+    {% csrf_token %}
+    <div class="formDiv">
+      <label for="id_title">Title</label>
+      <input type="text" name="title" id="id_title" required>
+    </div>
+    <div class="formDiv">
+      <label for="id_content">Content</label>
+      <textarea name="content" id="id_content" required></textarea>
+    </div>
+    <div class="formDiv">
+      <label for="id_published">Published at</label>
+      <input type="datetime-local" name="published_at" id="id_published" required>
+    </div>
+    <div class="formDiv">
+      <label for="id_author">Author</label>
+      <select name="author" id="id_author" required>
+        {% for author in authors %}
+          <option value="{{ author.pk }}">{{ author.first_name }} {{ author.last_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="formDiv">
+      <label for="id_publisher">Publisher</label>
+      <select name="publisher" id="id_publisher" required>
+        {% for publisher in publishers %}<option value="{{ publisher.pk }}">{{ publisher.title }}</option>{% endfor %}
+      </select>
+    </div>
+    <button type="submit">Add Book</button>
+  </form>
+  <hr>
+  <ul>
+    {% for book in books %}
+      <li>
+        {{ book.published_at|date:"Y-m-d H:i" }} —
+        <strong>{{ book.title }} ISBN- ( {{ book.isbn.code }})</strong> by
+        <ul>
+          {% for author in book.authors.all %}
+            <li>{{ author.first_name }} {{ author.last_name }}</li>
+          {% empty %}
+            <li>no authors</li>
+          {% endfor %}
+        </ul>
+        ({{ book.publisher.title }})
+      </li>
+    {% empty %}
+      <li>No books yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock content %}
